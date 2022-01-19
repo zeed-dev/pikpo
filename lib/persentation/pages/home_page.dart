@@ -219,9 +219,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      context.read<AddonBloc>().add(ReduceQty());
-                    });
+                    if (qty != 1) {
+                      setState(() {
+                        context.read<AddonBloc>().add(ReduceQty());
+                      });
+                    }
                   },
                   child: Image.asset(
                     "assets/btn_dec.png",

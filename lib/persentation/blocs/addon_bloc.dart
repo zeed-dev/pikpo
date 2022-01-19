@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pikpo/data/models/add_on_model.dart';
@@ -62,9 +60,9 @@ class AddonBloc extends Bloc<AddonEvent, AddonState> {
     int total = 0;
 
     for (var item in addOns) {
-      total += (item!.qty * item.price * qty);
+      total += (item!.qty * item.price);
     }
 
-    return total + price;
+    return total + qty * price;
   }
 }
