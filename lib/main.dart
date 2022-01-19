@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           accentColor: kBeachTurquoise,
           scaffoldBackgroundColor: kRichBlack,
           textTheme: kTextTheme,
+          unselectedWidgetColor: kBeachTurquoise,
         ),
         home: HomePage(),
       ),

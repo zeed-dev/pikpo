@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: margin),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
                     "Choose an add-on",
@@ -185,6 +185,9 @@ class _HomePageState extends State<HomePage> {
                       color: kPurple,
                       fontSize: 16,
                     ),
+                  ),
+                  SizedBox(
+                    width: 52,
                   ),
                   Text(
                     "Optional",
@@ -301,6 +304,9 @@ class _HomePageState extends State<HomePage> {
             children: [
               Checkbox(
                 value: addOnModel.isChecked,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
                 onChanged: (val) {
                   if (!addOnModel.isChecked) {
                     context
