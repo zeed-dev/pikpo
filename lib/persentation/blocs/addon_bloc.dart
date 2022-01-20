@@ -63,6 +63,6 @@ class AddonBloc extends Bloc<AddonEvent, AddonState> {
       total += (item!.qty * item.price);
     }
 
-    return total + qty * price;
+    return (total + price) * qty;
   }
 }

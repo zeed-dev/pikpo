@@ -5,6 +5,7 @@ class AddOnModel extends Equatable {
   String title;
   String description;
   bool isChecked;
+  bool isPlus;
   int qty;
   int price;
 
@@ -15,6 +16,7 @@ class AddOnModel extends Equatable {
     required this.price,
     required this.isChecked,
     required this.id,
+    required this.isPlus,
   });
 
   @override
@@ -26,6 +28,7 @@ class AddOnModel extends Equatable {
       price,
       isChecked,
       id,
+      isPlus,
     ];
   }
 }
@@ -38,6 +41,7 @@ List<AddOnModel> mockAddOn = [
     qty: 1,
     price: 35,
     isChecked: false,
+    isPlus: false,
   ),
   AddOnModel(
     id: 2,
@@ -46,6 +50,7 @@ List<AddOnModel> mockAddOn = [
     qty: 1,
     price: 14,
     isChecked: false,
+    isPlus: true,
   ),
   AddOnModel(
     id: 3,
@@ -55,5 +60,6 @@ List<AddOnModel> mockAddOn = [
     qty: 1,
     price: 7,
     isChecked: false,
+    isPlus: false,
   ),
 ];

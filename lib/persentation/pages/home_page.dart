@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pikpo/common/constants.dart';
 import 'package:pikpo/data/models/add_on_model.dart';
 import 'package:pikpo/persentation/blocs/addon_bloc.dart';
@@ -16,10 +17,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    var total = Provider.of<AddonBloc>(context).totalPrice();
-    var qty = Provider.of<AddonBloc>(context).qty;
-
     return Scaffold(
+      floatingActionButton: _buildWidgetBottomBar(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,10 +94,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Row(
                               children: [
-                                Image.asset(
-                                  "assets/ic_coment.png",
-                                  width: 20,
-                                ),
+                                SvgPicture.asset("assets/ic_coment.svg"),
                                 SizedBox(
                                   width: 6,
                                 ),
@@ -209,85 +206,94 @@ class _HomePageState extends State<HomePage> {
               }).toList(),
             ),
             SizedBox(
-              height: 42,
+              height: 150,
             ),
-            Divider(
-              thickness: 2,
-            ),
-            SizedBox(
-              height: 23,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    if (qty != 1) {
-                      setState(() {
-                        context.read<AddonBloc>().add(ReduceQty());
-                      });
-                    }
-                  },
-                  child: Image.asset(
-                    "assets/btn_dec.png",
-                    width: 30,
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWidgetBottomBar() {
+    var total = Provider.of<AddonBloc>(context).totalPrice();
+    var qty = Provider.of<AddonBloc>(context).qty;
+
+    return Container(
+      width: double.infinity,
+      height: 135,
+      color: kRichBlack,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 22,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  if (qty != 1) {
+                    setState(() {
+                      context.read<AddonBloc>().add(ReduceQty());
+                    });
+                  }
+                },
+                child: Image.asset(
+                  "assets/btn_dec.png",
+                  width: 30,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Text(
+                  qty.toString(),
+                  style: kSubtitle.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: kWhite,
+                    fontSize: 16,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    context.read<AddonBloc>().add(AddQty());
+                  });
+                },
+                child: Image.asset(
+                  "assets/btn_inc.png",
+                  width: 30,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Center(
+            child: Container(
+              height: 48,
+              width: 250,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: kPurple,
+                  ),
                   child: Text(
-                    qty.toString(),
+                    "Book \$${total}",
                     style: kSubtitle.copyWith(
                       fontWeight: FontWeight.bold,
                       color: kWhite,
                       fontSize: 16,
                     ),
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      context.read<AddonBloc>().add(AddQty());
-                    });
-                  },
-                  child: Image.asset(
-                    "assets/btn_inc.png",
-                    width: 30,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Center(
-              child: Container(
-                height: 48,
-                width: 250,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: kPurple,
-                    ),
-                    child: Text(
-                      "Book \$${total}",
-                      style: kSubtitle.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: kWhite,
-                        fontSize: 16,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
+                  onPressed: () {},
                 ),
               ),
             ),
-            SizedBox(
-              height: 20,
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -298,9 +304,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: margin),
           child: Row(
-            crossAxisAlignment: addOnModel.isChecked
-                ? CrossAxisAlignment.start
-                : CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Checkbox(
                 value: addOnModel.isChecked,
@@ -345,51 +349,54 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 12,
                       ),
                     ),
-                    addOnModel.isChecked
-                        ? Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  log("PRESSED");
-                                  if (addOnModel.qty != 1) {
-                                    setState(() {
-                                      context.read<AddonBloc>().add(
-                                          ReduceQtyAddOn(id: addOnModel.id));
-                                    });
-                                  }
-                                },
-                                child: Image.asset(
-                                  "assets/btn_dec.png",
-                                  width: 30,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  addOnModel.qty.toString(),
-                                  style: kSubtitle.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: kWhite,
-                                    fontSize: 16,
+                    addOnModel.isPlus
+                        ? addOnModel.isChecked
+                            ? Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      log("PRESSED");
+                                      if (addOnModel.qty != 1) {
+                                        setState(() {
+                                          context.read<AddonBloc>().add(
+                                              ReduceQtyAddOn(
+                                                  id: addOnModel.id));
+                                        });
+                                      }
+                                    },
+                                    child: Image.asset(
+                                      "assets/btn_dec.png",
+                                      width: 30,
+                                    ),
                                   ),
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  log("PRESSED");
-                                  setState(() {
-                                    context
-                                        .read<AddonBloc>()
-                                        .add(AddQtyAddOn(id: addOnModel.id));
-                                  });
-                                },
-                                child: Image.asset(
-                                  "assets/btn_inc.png",
-                                  width: 30,
-                                ),
-                              ),
-                            ],
-                          )
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    child: Text(
+                                      addOnModel.qty.toString(),
+                                      style: kSubtitle.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: kWhite,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      log("PRESSED");
+                                      setState(() {
+                                        context.read<AddonBloc>().add(
+                                            AddQtyAddOn(id: addOnModel.id));
+                                      });
+                                    },
+                                    child: Image.asset(
+                                      "assets/btn_inc.png",
+                                      width: 30,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : SizedBox.shrink()
                         : SizedBox.shrink(),
                   ],
                 ),
@@ -423,10 +430,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Row(
             children: [
-              Image.asset(
-                "assets/ic_clock.png",
-                width: 18,
-              ),
+              SvgPicture.asset("assets/ic_clock.svg"),
               SizedBox(
                 width: 8,
               ),
@@ -440,10 +444,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Row(
             children: [
-              Image.asset(
-                "assets/ic_revision.png",
-                width: 18,
-              ),
+              SvgPicture.asset("assets/ic_revision.svg"),
               SizedBox(
                 width: 8,
               ),
@@ -466,16 +467,8 @@ class _HomePageState extends State<HomePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            "assets/ic_back.png",
-            width: 34,
-            height: 34,
-          ),
-          Image.asset(
-            "assets/ic_more.png",
-            width: 34,
-            height: 34,
-          ),
+          SvgPicture.asset("assets/ic_back.svg"),
+          SvgPicture.asset("assets/ic_more.svg"),
         ],
       ),
     );
