@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
                     width: 20,
                   ),
                   Text(
-                    "\$67",
+                    "\$84",
                     style: kHeading5.copyWith(
                       fontWeight: FontWeight.bold,
                       color: kPurple,

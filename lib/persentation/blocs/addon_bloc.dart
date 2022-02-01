@@ -8,7 +8,7 @@ part 'addon_state.dart';
 
 class AddonBloc extends Bloc<AddonEvent, AddonState> {
   List<AddOnModel?> addOns = [];
-  int price = 67;
+  int price = 84;
   int qty = 1;
 
   Logger _logger = Logger();
